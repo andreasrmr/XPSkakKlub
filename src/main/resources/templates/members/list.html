@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Members list</title>
+</head>
+<body>
+
+<!-- Create member -->
+<h3>Tilføj nyt medlem </h3>
+<form action="/members/create" method="post">
+    <input type="text" name="name" placeholder="navn">
+    <input type="text" name="phone" placeholder="telefon">
+    <input type="text" name="email" placeholder="email">
+    <input type="date" name="birthday" placeholder="birthday">
+    <button type="submit">Tilføj</button>
+</form>
+
+<!--Update member-->
+<div th:if="${member != null}">
+    <h3>Opdater medlem</h3>
+    <form action="/members/update" method="post">
+        <input type="hidden"    name="id"            th:value="${member.id}">
+        <input type="text"      name="name"          th:value="${member.name}">
+        <input type="text"      name="phone"       th:value="${member.phone}">
+        <input type="email"     name="email"         th:value="${member.email}">
+        <input type="date"      name="birthday"   th:value="${member.birthday}">
+        <button type="submit">Opdater</button>
+    </form>
+</div>
+
+<h3>Medlemmer</h3>
+    <!--Switch checker om der er data i listen-->
+    <div th:switch="${not #lists.isEmpty(list)}">
+        <table th:case="${true}">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Birthday</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="members : ${list}">
+                <td th:text="${members.getName()}">  </td>
+                <td th:text="${members.getEmail()}">  </td>
+                <td th:text="${members.getBirthday()}">  </td>
+                <td th:text="${members.getPhone()}">  </td>
+                <!-- Nedenstående link istedet for knap.
+                <td><a th:href="@{'/delete/' + ${members.id}}">delete</a></td> -->
+                <!-- Button for Delete -->
+                <td>
+                    <form method="get" th:action="@{'/members/delete/' + ${members.id}}">
+                    <button type="submit">Slet</button>
+                    </form>
+                </td>
+                <!-- Button for update -->
+                <td>
+                    <form method="get" th:action="@{'/members/update/' + ${members.id}}">
+                        <button type="submit">Opdater</button>
+                    </form>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+        <p th:case="${false}">Data kunne ikke findes.</p>
+    </div>
+
+</body>
+</html>

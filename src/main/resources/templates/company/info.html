@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact information</title>
+</head>
+<body>
+    <div>
+        <table>
+            <thead>
+                <th>Firma</th>
+                <th>Telefon</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${info.getName()}"   ></td>
+                    <td th:text="${info.getPhone()}" ></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${contingent != null}">
+        <h3>Opdater Kontingent</h3>
+        <form action="/company/update" method="post">
+            <input type="hidden" name="id" th:value="${contingent.getId()}">
+            <input type="text"   name="category" th:value="${contingent.getCategory()}">
+            <input type="text"   name="price" th:value="${contingent.getPrice()}">
+            <button type="submit"> Opdater </button>
+        </form>
+
+    </div>
+    <h1>Opdater Kontingent</h1>
+    <h3>Kontingent Priser</h3>
+    <!-- tester om der er data i listen -->
+    <div th:switch="${not #lists.isEmpty(list)}">
+           <!-- data findes -->
+            <table th:case="${true}">
+                <tbody>
+                    <tr th:each="con : ${list}">
+                        <td th:text="${con.getCategory()}"></td>
+                        <td th:text="${con.getPrice()}"></td>
+                        <!-- TODO: nedenstående knapper skal styres med access control-->
+                        <td>
+                            <form method="get" th:action="@{'/company/contingent/delete/' + ${con.id}}">
+                                <button type="submit">Slet</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="get" th:action="@{'/company/contingent/update/' + ${con.id}}">
+                                <button type="submit">Opdater</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- data findes ikke -->
+            <p th:case="${false}">Data kunne ikke findes.</p>
+    </div>
+
+</body>
+</html>
