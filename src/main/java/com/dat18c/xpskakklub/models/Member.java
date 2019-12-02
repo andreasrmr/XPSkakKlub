@@ -1,9 +1,6 @@
 package com.dat18c.xpskakklub.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -12,9 +9,17 @@ public class Member {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(nullable = false)
     private String phone;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private Date birthday;
 
     protected Member() {

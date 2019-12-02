@@ -1,9 +1,6 @@
 package com.dat18c.xpskakklub.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Contingent {
@@ -11,7 +8,11 @@ public class Contingent {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     int id;
+
+    @Column(nullable = false)
     private String category;
+
+    @Column(nullable = false)
     private int price;
 
     public Contingent() {

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Members list</title>
+</head>
+<body>
+
+<!-- Create medarbejder -->
+<h1>Tilføj ny medarbejder</h1>
+<form action="/employee/create" method="post">
+    <input type="text" name="name" placeholder="navn">
+    <input type="email" name="email" placeholder="email">
+    <input type="text" name="password" placeholder="password">
+    <input type="text" name="role" placeholder="role">
+    <button type="submit">Opret</button>
+</form>
+
+<!--Update member-->
+<div th:if="${employee != null}">
+    <h3>Opdater medlem</h3>
+    <form action="/employee/update" method="post">
+        <input type="hidden"    name="id"            th:value="${employee.id}">
+        <input type="text"      name="name"          th:value="${employee.name}">
+        <input type="email"     name="email"         th:value="${employee.email}">
+        <input type="text"      name="password"   th:value="${employee.password}">
+        <input type="text"      name="role"   th:value="${employee.role}">
+        <button type="submit">Opdater</button>
+    </form>
+</div>
+
+<h3>Medarbejdere</h3>
+
+<div th:switch="${not #lists.isEmpty(list)}">
+    <table th:case="${true}">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        <tr th:each="employee : ${list}">
+            <td th:text="${employee.getName()}">  </td>
+            <td th:text="${employee.getEmail()}">  </td>
+            <td th:text="${employee.getPassword()}">  </td>
+            <td th:text="${employee.getRole()}">  </td>
+
+            <td>
+                <form method="get" th:action="@{'/employee/delete/' + ${employee.id}}">
+                    <button type="submit">Slet</button>
+                </form>
+            </td>
+
+            <td>
+                <form method="get" th:action="@{'/employee/update/' + ${employee.id}}">
+                    <button type="submit">Opdater</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <p th:case="${false}">Data kunne ikke findes.</p>
+</div>
+
+</body>
+</html>

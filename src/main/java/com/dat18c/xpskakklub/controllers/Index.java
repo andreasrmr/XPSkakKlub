@@ -10,7 +10,7 @@ public class Index {
     //index page. (all access)
     @GetMapping("/")
     public String showIndexPage(){
-        return "/home";
+        return "/index";
     }
 
 

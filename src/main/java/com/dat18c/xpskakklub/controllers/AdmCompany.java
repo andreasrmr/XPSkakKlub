@@ -1,6 +1,5 @@
 package com.dat18c.xpskakklub.controllers;
 
-import com.dat18c.xpskakklub.models.CompanyInfo;
 import com.dat18c.xpskakklub.models.Contingent;
 import com.dat18c.xpskakklub.services.SeCompanyInfo;
 import com.dat18c.xpskakklub.services.SeContingent;
